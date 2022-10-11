@@ -6,8 +6,7 @@ psql_password=$5
 
 if [ $# -ne  5 ]
   then
-    exit 1;
-  exit 1
+    exit 1
 fi
 
 vmstat_mb=$(vmstat --unit M)
