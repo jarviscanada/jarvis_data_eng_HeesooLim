@@ -22,7 +22,6 @@ public interface JavaGrep {
      * Read a file and return all the lines.
      * It reads the contents of a file as a stream of characters using the FileReader class and
      * buffers the characters in order to simplify reading text from a character input stream using the BufferedReader class,
-     * TODO: mention character encoding
      *
      * @param inputFile file to get the String lines
      * @return List of the lines in the file
