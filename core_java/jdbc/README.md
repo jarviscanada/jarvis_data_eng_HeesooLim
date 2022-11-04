@@ -7,7 +7,7 @@ the customer table. Every operation is done in the `JDBCExecutor` class.
 ## ER Diagram
 Below is an Entity Relationship diagram that represents the relationships between the
 entities in our database
-![](/home/centos/HPlus Sport.png)
+![](./assets/HPlus Sport.png)
 
 ## Design Patterns
 **DAO** and **Repository** patterns are different ways that we can implement the 
