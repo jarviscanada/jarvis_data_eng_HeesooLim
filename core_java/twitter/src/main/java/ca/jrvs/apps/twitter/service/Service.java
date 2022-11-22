@@ -30,7 +30,7 @@ public interface Service {
   /**
    * Delete Tweet(s) by id(s).
    *
-   * @param ids tweet IDs which will be deleted
+   * @param ids tweet ID which will be deleted
    * @return A list of Tweets
    *
    * @throws IllegalArgumentException if one of the IDs is invalid.
