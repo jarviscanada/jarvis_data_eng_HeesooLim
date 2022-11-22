@@ -49,7 +49,7 @@ public class TwitterDaoUnitTest {
    */
   @Test
   public void performTweetTest() throws IOException {
-//    System.out.println("method: " + Arrays.toString(Thread.currentThread().getStackTrace()));
+    // get the StackTrace and define the type of test
     int testType = 0;
     String stackTrace = Arrays.toString(Thread.currentThread().getStackTrace());
     if (stackTrace.contains("postTweet"))
@@ -84,7 +84,6 @@ public class TwitterDaoUnitTest {
       when (mockHelper.httpPost(isNotNull())).thenReturn(null);
     else
       when (mockHelper.httpGet(isNotNull())).thenReturn(null);
-//    when (mockHelper.httpPost(isNotNull())).thenReturn(null);
     TwitterDao spyDao = Mockito.spy(dao);
     Tweet expectedTweet = TweetUtils.jsonToObject(TweetUtils.TWEET_JSON_STRING, Tweet.class);
 

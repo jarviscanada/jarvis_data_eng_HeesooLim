@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gdata.util.common.base.PercentEscaper;
 import java.io.IOException;
 import java.util.Date;
+import java.util.Random;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
+import sun.font.FontRunIterator;
 
 public class TweetUtils {
   public static final String TWEET_JSON_STRING = "{\n"
@@ -61,5 +63,27 @@ public class TweetUtils {
   public static <T> T jsonToObject(String json, Class c) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     return (T) mapper.readValue(json, c);
+  }
+
+  public static String getInvalidId() {
+    String pool = "abcdefghijklmnopqrstuvwxyz"
+        + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        + "-=+!@#$%^&*";
+    return getRandomString(pool, 17);
+  }
+
+  public static String getValidFormatId() {
+    String pool = "1234567890";
+    return getRandomString(pool, 17);
+  }
+
+  public static String getRandomString(String pool, int length) {
+    StringBuilder sb = new StringBuilder();
+    Random random = new Random();
+    int len = pool.length();
+    for (int i = 0; i < length; i++) {
+      sb.append(pool.charAt(random.nextInt(len)));
+    }
+    return sb.toString();
   }
 }

@@ -27,7 +27,6 @@ public class TwitterService implements Service {
 
   @Override
   public List<Tweet> deleteTweets(String[] ids) {
-    boolean isEveryIdValid = true;
     List<Tweet> deletedTweets = new ArrayList<>();
 
     for (String id : ids) {
@@ -38,13 +37,12 @@ public class TwitterService implements Service {
   }
 
   private void validatePostTweet(Tweet tweet) {
-    validateIdFormat(tweet.getIdStr());
     float latitude = tweet.getCoordinates().getCoordinates()[1];
     float longitude = tweet.getCoordinates().getCoordinates()[0];
-    boolean isLatitudeValid = latitude > -90 && latitude < 90;
-    boolean isLongitudeValid = longitude > -180 && longitude < 180;
+    boolean isLatitudeValid = latitude >= -90 && latitude <= 90;
+    boolean isLongitudeValid = longitude >= -180 && longitude <= 180;
 
-    if (tweet.getText().length() <= 140 && isLatitudeValid && isLongitudeValid) {
+    if (tweet.getText().length() > 140 || !isLatitudeValid || !isLongitudeValid) {
       throw new IllegalArgumentException();
     }
   }
