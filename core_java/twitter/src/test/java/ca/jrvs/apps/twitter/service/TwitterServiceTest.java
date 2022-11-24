@@ -1,8 +1,6 @@
 package ca.jrvs.apps.twitter.service;
 
-import ca.jrvs.apps.twitter.dao.CrdDao;
 import ca.jrvs.apps.twitter.dao.TwitterDao;
-import ca.jrvs.apps.twitter.dao.TwitterDaoTest;
 import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
 import ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelper;
 import ca.jrvs.apps.twitter.model.Coordinates;
@@ -10,7 +8,6 @@ import ca.jrvs.apps.twitter.model.Tweet;
 import ca.jrvs.apps.twitter.utils.TweetUtils;
 import com.google.gdata.util.common.base.PercentEscaper;
 import java.util.List;
-import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +27,6 @@ public class TwitterServiceTest {
   }
   @Test
   public void testPostLongTweet() {
-//    PercentEscaper percentEscaper = new PercentEscaper("", false);
     Tweet tweet = TweetUtils.getTweetObject();
     StringBuilder text = new StringBuilder();
     for (int i = 0; i < 5; i++) {
@@ -50,8 +46,7 @@ public class TwitterServiceTest {
   @Test
   public void testPostWrongGeoTweet() {
     Tweet tweet = TweetUtils.getTweetObject();
-    Coordinates invalidCoords = new Coordinates();
-    invalidCoords.setCoordinates(new float[]{200f, 200f});
+    Coordinates invalidCoords = new Coordinates(new float[]{200f, 200f}, "");
     tweet.setCoordinates(invalidCoords);
 
     try {
@@ -85,7 +80,7 @@ public class TwitterServiceTest {
     Tweet tweet = TweetUtils.getTweetObject();
     Tweet newTweet = service.postTweet(tweet);
 
-    Tweet tweetFound = service.showTweet(newTweet.getIdStr(), null);
+    Tweet tweetFound = service.showTweet(newTweet.getIdStr(), new String[] {});
     Assert.assertEquals(newTweet, tweetFound);
   }
 
@@ -97,7 +92,7 @@ public class TwitterServiceTest {
     newTweet.setIdStr(TweetUtils.getInvalidId());
 
     try {
-      service.showTweet(newTweet.getIdStr(), null);
+      service.showTweet(newTweet.getIdStr(), new String[] {});
     }
     catch (Exception e) {
       Assert.assertTrue(true);
