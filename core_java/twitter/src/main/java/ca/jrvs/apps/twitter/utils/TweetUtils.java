@@ -1,15 +1,16 @@
 package ca.jrvs.apps.twitter.utils;
 
-import ca.jrvs.apps.twitter.model.Coordinates;
 import ca.jrvs.apps.twitter.model.Tweet;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gdata.util.common.base.PercentEscaper;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Random;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
-import sun.font.FontRunIterator;
 
 public class TweetUtils {
   public static final String TWEET_JSON_STRING = "{\n"
@@ -75,5 +76,36 @@ public class TweetUtils {
       sb.append(pool.charAt(random.nextInt(len)));
     }
     return sb.toString();
+  }
+
+  public static String tweetToJson(Tweet tweet) throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.setSerializationInclusion(Include.NON_DEFAULT);
+    mapper.setSerializationInclusion(Include.NON_NULL);
+    // pretty json
+    return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(tweet);
+  }
+
+  public static String tweetToJson(Tweet tweet, String[] fields) throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    ObjectNode fullJson = mapper.valueToTree(tweet);
+    ObjectNode emptyJson = mapper.createObjectNode();
+
+    if (fields.length > 0) {
+      for (String field : fields) {
+        emptyJson.put(field, fullJson.get(field));
+      }
+      try {
+        // pretty json
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(emptyJson);
+      } catch (JsonProcessingException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    try {
+      return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(fullJson);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
   }
 }
