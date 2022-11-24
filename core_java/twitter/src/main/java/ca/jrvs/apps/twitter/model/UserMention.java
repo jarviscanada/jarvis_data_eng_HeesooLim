@@ -1,6 +1,7 @@
 package ca.jrvs.apps.twitter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.Arrays;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserMention {
@@ -48,5 +49,16 @@ public class UserMention {
 
   public void setScreenName(String screenName) {
     this.screenName = screenName;
+  }
+
+  @Override
+  public String toString() {
+    return "UserMention{" +
+        "id=" + id +
+        ", idStr='" + idStr + '\'' +
+        ", indices=" + Arrays.toString(indices) +
+        ", name='" + name + '\'' +
+        ", screenName='" + screenName + '\'' +
+        '}';
   }
 }

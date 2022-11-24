@@ -27,4 +27,11 @@ public class Entities {
     Entities entities = (Entities) o;
     return Arrays.equals(hashtags, entities.hashtags);
   }
+
+  @Override
+  public String toString() {
+    return "Entities{" +
+        "hashtags=" + Arrays.toString(hashtags) +
+        '}';
+  }
 }

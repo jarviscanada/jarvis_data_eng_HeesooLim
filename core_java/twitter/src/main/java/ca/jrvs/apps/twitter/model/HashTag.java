@@ -37,4 +37,12 @@ public class HashTag {
     return Arrays.equals(indices, hashTag.indices) && Objects.equals(text,
         hashTag.text);
   }
+
+  @Override
+  public String toString() {
+    return "HashTag{" +
+        "indices=" + Arrays.toString(indices) +
+        ", text='" + text + '\'' +
+        '}';
+  }
 }

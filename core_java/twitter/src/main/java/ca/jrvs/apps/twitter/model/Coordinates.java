@@ -48,4 +48,12 @@ public class Coordinates {
     return Arrays.equals(coordinates, that.coordinates) && Objects.equals(type,
         that.type);
   }
+
+  @Override
+  public String toString() {
+    return "Coordinates{" +
+        "coordinates=" + Arrays.toString(coordinates) +
+        ", type='" + type + '\'' +
+        '}';
+  }
 }

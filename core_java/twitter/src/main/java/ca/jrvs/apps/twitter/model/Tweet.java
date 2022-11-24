@@ -132,4 +132,20 @@ public class Tweet {
         && Objects.equals(entities, tweet.entities) && Objects.equals(coordinates,
         tweet.coordinates);
   }
+
+  @Override
+  public String toString() {
+    return "Tweet{" +
+        "createdAt='" + createdAt + '\'' +
+        ", id=" + id +
+        ", idStr='" + idStr + '\'' +
+        ", text='" + text + '\'' +
+        ", entities=" + entities +
+        ", coordinates=" + coordinates +
+        ", retweetCount=" + retweetCount +
+        ", favoriteCount=" + favoriteCount +
+        ", favorited=" + favorited +
+        ", retweeted=" + retweeted +
+        '}';
+  }
 }
