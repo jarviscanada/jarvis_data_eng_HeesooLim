@@ -2,6 +2,9 @@ package ca.jrvs.apps.twitter.service;
 
 import ca.jrvs.apps.twitter.dao.CrdDao;
 import ca.jrvs.apps.twitter.model.Tweet;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +25,27 @@ public class TwitterService implements Service {
   @Override
   public Tweet showTweet(String id, String[] fields) {
     validateIdFormat(id);
-    return (Tweet) dao.findById(id);
+    Tweet tweet = (Tweet) dao.findById(id);
+
+    ObjectMapper mapper = new ObjectMapper();
+    ObjectNode fullJson = mapper.valueToTree(tweet);
+    ObjectNode emptyJson = mapper.createObjectNode();
+
+    if (fields.length > 0) {
+      for (String field : fields) {
+        emptyJson.put(field, fullJson.get(field));
+      }
+      try {
+        return mapper.treeToValue(emptyJson, Tweet.class);
+      } catch (JsonProcessingException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    try {
+      return mapper.treeToValue(fullJson, Tweet.class);
+    } catch (JsonProcessingException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override

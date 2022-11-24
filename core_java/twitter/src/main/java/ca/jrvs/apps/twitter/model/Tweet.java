@@ -1,5 +1,6 @@
 package ca.jrvs.apps.twitter.model;
 
+import ca.jrvs.apps.twitter.utils.TweetUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gdata.util.common.base.PercentEscaper;
@@ -22,6 +23,15 @@ public class Tweet {
   private int favoriteCount;
   private boolean favorited;
   private boolean retweeted;
+
+  public Tweet () {
+
+  }
+
+  public Tweet (String text, float longitude, float latitude, String coordsType) {
+    this.text = text;
+    this.coordinates = new Coordinates(new float[] {longitude, latitude}, coordsType);
+  }
 
   public String getCreatedAt() {
     return createdAt;

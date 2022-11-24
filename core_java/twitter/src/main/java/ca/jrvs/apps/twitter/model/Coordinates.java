@@ -11,6 +11,15 @@ public class Coordinates {
   private float[] coordinates;
   private String type;
 
+  public Coordinates() {
+
+  }
+
+  public Coordinates(float[] coordinates, String type) {
+    this.coordinates = coordinates;
+    this.type = type;
+  }
+
   public float[] getCoordinates() {
     return coordinates;
   }

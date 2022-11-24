@@ -40,17 +40,7 @@ public class TweetUtils {
   }
 
   public static Tweet getTweetObject() {
-    Tweet tweet = new Tweet();
-    String text = TweetUtils.newTweetText();
-
-    Coordinates coordinates = new Coordinates();
-    float[] coords = {40.74118764f, -73.9998279f};
-    coordinates.setCoordinates(coords);
-    coordinates.setType("Point");
-
-    tweet.setCoordinates(coordinates);
-    tweet.setText(text);
-    return tweet;
+    return new Tweet(TweetUtils.newTweetText(), 40.74118764f, -73.9998279f, "Point");
   }
 
 
