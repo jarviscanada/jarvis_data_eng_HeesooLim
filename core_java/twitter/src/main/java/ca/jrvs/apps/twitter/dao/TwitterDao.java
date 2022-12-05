@@ -1,14 +1,17 @@
 package ca.jrvs.apps.twitter.dao;
 
-import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
+import ca.jrvs.apps.twitter.helper.HttpHelper;
 import ca.jrvs.apps.twitter.model.Tweet;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gdata.util.common.base.PercentEscaper;
 import java.io.IOException;
 import java.net.URI;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class TwitterDao implements CrdDao<Tweet, String> {
   private static final String API_BASE_URI = "https://api.twitter.com";
   private static final String POST_PATH = "/1.1/statuses/update.json";
@@ -31,8 +34,6 @@ public class TwitterDao implements CrdDao<Tweet, String> {
     String postUri = buildPostUri(entity);
     HttpResponse res = httpHelper.httpPost(URI.create(postUri));
     try {
-//      Tweet tweet = HttpUtils.responseToObject(res, Tweet.class);
-//      return tweet;
       return parseResponseBody(res, 200);
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -40,7 +41,8 @@ public class TwitterDao implements CrdDao<Tweet, String> {
   }
 
   private String buildPostUri(Tweet entity) {
-    StringBuilder uri = new StringBuilder(API_BASE_URI + POST_PATH + QUERY_SYM + "status" + EQUAL + entity.getText());
+    PercentEscaper escaper = new PercentEscaper("", false);
+    StringBuilder uri = new StringBuilder(API_BASE_URI + POST_PATH + QUERY_SYM + "status" + EQUAL + escaper.escape(entity.getText()));
 
     if (entity.getCoordinates() != null) {
       float[] coordinates = entity.getCoordinates().getCoordinates();
@@ -77,7 +79,6 @@ public class TwitterDao implements CrdDao<Tweet, String> {
 
   public Tweet parseResponseBody(HttpResponse res, Integer expectedStatusCode) throws IOException {
     int statusCode = res.getStatusLine().getStatusCode();
-//    String responseString = "";
     String responseString = res.getEntity() == null ? "STATUS - " + statusCode : EntityUtils.toString(res.getEntity());
     if (statusCode != expectedStatusCode) {
       if (res.getEntity() != null)

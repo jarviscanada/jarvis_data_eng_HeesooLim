@@ -29,6 +29,7 @@ public class Tweet {
   }
 
   public Tweet (String text, float longitude, float latitude, String coordsType) {
+//    PercentEscaper percentEscaper = new PercentEscaper("", false);
     this.text = text;
     this.coordinates = new Coordinates(new float[] {longitude, latitude}, coordsType);
   }

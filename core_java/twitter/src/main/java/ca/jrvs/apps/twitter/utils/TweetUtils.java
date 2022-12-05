@@ -1,11 +1,11 @@
 package ca.jrvs.apps.twitter.utils;
 
+import ca.jrvs.apps.twitter.model.Coordinates;
 import ca.jrvs.apps.twitter.model.Tweet;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.gdata.util.common.base.PercentEscaper;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Random;
@@ -36,12 +36,24 @@ public class TweetUtils {
       + "}";
 
   public static String newTweetText() {
-    PercentEscaper percentEscaper = new PercentEscaper("", false);
-    return percentEscaper.escape( "Tweet at:" + new Date().toString());
+    return "Tweet at:" + new Date().toString() + getRandomString("abcdefghijklmnopqrstuvwxyz1234567890", 10);
   }
 
   public static Tweet getTweetObject() {
-    return new Tweet(TweetUtils.newTweetText(), 40.74118764f, -73.9998279f, "Point");
+    return new Tweet(TweetUtils.newTweetText(),
+        40.74118764f, -73.9998279f, "Point");
+  }
+
+  public static float[] getCoordinateValue() {
+    Random random = new Random();
+    boolean isNegative = random.nextFloat() < 0.5;
+    float longitude = (random.nextFloat() * 179);
+    float latitude = random.nextFloat() * 79;
+    if (isNegative) {
+      longitude *= -1;
+      latitude *= -1;
+    }
+    return new float[] {longitude, latitude};
   }
 
 

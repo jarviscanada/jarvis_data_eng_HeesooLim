@@ -1,4 +1,4 @@
-package ca.jrvs.apps.twitter.dao.helper;
+package ca.jrvs.apps.twitter.helper;
 
 import java.io.IOException;
 import java.net.URI;
@@ -13,6 +13,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,6 +26,17 @@ public class TwitterHttpHelper implements HttpHelper {
   private HttpClient httpClient;
 
   public TwitterHttpHelper(String consumerKey, String consumerSecret, String accessToken, String tokenSecret) {
+    consumer = new CommonsHttpOAuthConsumer(consumerKey, consumerSecret);
+    consumer.setTokenWithSecret(accessToken, tokenSecret);
+
+    httpClient = new DefaultHttpClient();
+  }
+
+  public TwitterHttpHelper() {
+    String consumerKey = System.getenv("consumerKey");
+    String consumerSecret = System.getenv("consumerSecret");
+    String accessToken = System.getenv("accessToken");
+    String tokenSecret = System.getenv("tokenSecret");
     consumer = new CommonsHttpOAuthConsumer(consumerKey, consumerSecret);
     consumer.setTokenWithSecret(accessToken, tokenSecret);
 
