@@ -1,8 +1,8 @@
 package ca.jrvs.apps.twitter.service;
 
 import ca.jrvs.apps.twitter.dao.TwitterDao;
-import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
-import ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelper;
+import ca.jrvs.apps.twitter.helper.HttpHelper;
+import ca.jrvs.apps.twitter.helper.TwitterHttpHelper;
 import ca.jrvs.apps.twitter.model.Coordinates;
 import ca.jrvs.apps.twitter.model.Tweet;
 import ca.jrvs.apps.twitter.utils.TweetUtils;
@@ -61,13 +61,13 @@ public class TwitterServiceTest {
 
   @Test
   public void testPostValidTweet() {
-    PercentEscaper percentEscaper = new PercentEscaper("", false);
+//    PercentEscaper percentEscaper = new PercentEscaper("", false);
     Tweet tweet = TweetUtils.getTweetObject();
     Tweet newTweet = service.postTweet(tweet);
     float[] tweetCoords = tweet.getCoordinates().getCoordinates();
     float[] newTweetCoords = newTweet.getCoordinates().getCoordinates();
 
-    Assert.assertEquals(tweet.getText(), percentEscaper.escape(newTweet.getText()));
+    Assert.assertEquals(tweet.getText(), newTweet.getText());
     Assert.assertTrue(tweet.getText().length() <= 140);
     Assert.assertEquals(tweetCoords[0], newTweetCoords[0], 0.0);
     Assert.assertEquals(tweetCoords[1], newTweetCoords[1], 0.0);
@@ -81,7 +81,7 @@ public class TwitterServiceTest {
     Tweet newTweet = service.postTweet(tweet);
 
     Tweet tweetFound = service.showTweet(newTweet.getIdStr(), new String[] {});
-    Assert.assertEquals(newTweet, tweetFound);
+    Assert.assertEquals(newTweet.getIdStr(), tweetFound.getIdStr());
   }
 
   @Test

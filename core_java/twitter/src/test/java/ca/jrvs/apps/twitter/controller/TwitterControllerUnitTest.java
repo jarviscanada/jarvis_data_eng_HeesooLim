@@ -39,7 +39,7 @@ public class TwitterControllerUnitTest {
 
   @Test
   public void postTweet() throws IOException {
-    when(service.postTweet(isNotNull())).thenThrow(new RuntimeException("mock"));
+    when(service.postTweet(any())).thenThrow(new RuntimeException("mock"));
 
     try {
       Tweet tweet = TweetUtils.getTweetObject();
@@ -54,11 +54,11 @@ public class TwitterControllerUnitTest {
 
   @Test
   public void showTweet() {
-    when(service.showTweet(isNotNull(), isNotNull())).thenThrow(new RuntimeException("mock"));
+    when(service.showTweet(any(), any())).thenThrow(new RuntimeException("mock"));
 
     try {
       Tweet tweet = TweetUtils.getTweetObject();
-      controller.postTweet(new String[] {tweet.getText(), "id,text"});
+      controller.showTweet(new String[] {tweet.getText(), "id,text"});
     }
     catch (RuntimeException e) {
       Assert.assertTrue(true);
@@ -67,7 +67,7 @@ public class TwitterControllerUnitTest {
 
   @Test
   public void deleteTweet() {
-    when(service.deleteTweets(isNotNull())).thenThrow(new RuntimeException("mock"));
+    when(service.deleteTweets(any())).thenThrow(new RuntimeException("mock"));
 
     try {
       controller.deleteTweet(new String[] {TweetUtils.getValidFormatId()});

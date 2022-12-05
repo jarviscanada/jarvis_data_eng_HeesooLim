@@ -8,12 +8,13 @@ import static org.mockito.ArgumentMatchers.isNotNull;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
-import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
+import ca.jrvs.apps.twitter.helper.HttpHelper;
 import ca.jrvs.apps.twitter.model.Tweet;
 import ca.jrvs.apps.twitter.utils.TweetUtils;
 import java.io.IOException;
 import java.util.Arrays;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -48,6 +49,7 @@ public class TwitterDaoUnitTest {
    * Perform test for posting, finding, deleting a tweet
    */
   @Test
+  @Ignore
   public void performTweetTest() throws IOException {
     // get the StackTrace and define the type of test
     int testType = 0;

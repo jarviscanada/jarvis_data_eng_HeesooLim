@@ -1,5 +1,6 @@
 package ca.jrvs.apps.twitter.dao.helper;
 
+import ca.jrvs.apps.twitter.helper.TwitterHttpHelper;
 import ca.jrvs.apps.twitter.model.Tweet;
 import ca.jrvs.apps.twitter.utils.TweetUtils;
 import com.google.gdata.util.common.base.PercentEscaper;
@@ -29,10 +30,10 @@ public class TwitterHttpHelperTest {
     PercentEscaper percentEscaper = new PercentEscaper("", false);
     String status = TweetUtils.newTweetText();
     HttpResponse res = helper.httpPost(URI.create(
-        "https://api.twitter.com/1.1/statuses/update.json?status=" + status));
+        "https://api.twitter.com/1.1/statuses/update.json?status=" + percentEscaper.escape(status)));
 
     Tweet tweet = TweetUtils.responseToObject(res, Tweet.class);
-    Assert.assertEquals(status, percentEscaper.escape(tweet.getText()));
+    Assert.assertEquals(status, tweet.getText());
   }
 
   @Test

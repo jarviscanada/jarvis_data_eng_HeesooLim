@@ -1,7 +1,7 @@
 package ca.jrvs.apps.twitter.dao;
 
-import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
-import ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelper;
+import ca.jrvs.apps.twitter.helper.HttpHelper;
+import ca.jrvs.apps.twitter.helper.TwitterHttpHelper;
 import ca.jrvs.apps.twitter.model.Tweet;
 import ca.jrvs.apps.twitter.utils.TweetUtils;
 import com.google.gdata.util.common.base.PercentEscaper;
@@ -25,13 +25,13 @@ public class TwitterDaoTest {
 
   @Test
   public void testCreate() {
-    PercentEscaper percentEscaper = new PercentEscaper("", false);
+//    PercentEscaper percentEscaper = new PercentEscaper("", false);
     Tweet tweet = TweetUtils.getTweetObject();
     Tweet newTweet = dao.create(tweet);
     float[] tweetCoords = tweet.getCoordinates().getCoordinates();
     float[] newTweetCoords = newTweet.getCoordinates().getCoordinates();
 
-    Assert.assertEquals(tweet.getText(), percentEscaper.escape(newTweet.getText()));
+    Assert.assertEquals(tweet.getText(), newTweet.getText());
     Assert.assertEquals(tweetCoords[0], newTweetCoords[0], 0.0);
     Assert.assertEquals(tweetCoords[1], newTweetCoords[1], 0.0);
   }
@@ -47,6 +47,6 @@ public class TwitterDaoTest {
   public void testDeleteById() {
     Tweet tweetCreated = dao.create(TweetUtils.getTweetObject());
     Tweet tweetDeleted = dao.deleteById(tweetCreated.getIdStr());
-    Assert.assertEquals(tweetCreated, tweetDeleted);
+    Assert.assertEquals(tweetCreated.getIdStr(), tweetDeleted.getIdStr());
   }
 }

@@ -1,8 +1,9 @@
 package ca.jrvs.apps.twitter.controller;
 
 import ca.jrvs.apps.twitter.dao.TwitterDao;
-import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
-import ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelper;
+import ca.jrvs.apps.twitter.helper.HttpHelper;
+import ca.jrvs.apps.twitter.helper.TwitterHttpHelper;
+import ca.jrvs.apps.twitter.model.Coordinates;
 import ca.jrvs.apps.twitter.model.Tweet;
 import ca.jrvs.apps.twitter.service.TwitterService;
 import ca.jrvs.apps.twitter.utils.TweetUtils;
@@ -29,27 +30,35 @@ public class TwitterControllerTest {
   @Test
   public void testPostTweet() {
     PercentEscaper percentEscaper = new PercentEscaper("", false);
-    Tweet tweet = TweetUtils.getTweetObject();
-    float[] coords = tweet.getCoordinates().getCoordinates();
-    String coordString = coords[1] + ":" + coords[0];
-    Tweet postedTweet = controller.postTweet(new String[] {tweet.getText(), coordString});
+//    Tweet tweet = TweetUtils.getTweetObject();
+//    float[] coords = tweet.getCoordinates().getCoordinates();
 
-    Assert.assertEquals(tweet.getText(), percentEscaper.escape(postedTweet.getText()));
-    Assert.assertEquals(tweet.getCoordinates(), postedTweet.getCoordinates());
+    String text = TweetUtils.newTweetText();
+    float[] coords = TweetUtils.getCoordinateValue();
+    String coordString = coords[1] + ":" + coords[0];
+
+    Tweet postedTweet = controller.postTweet(new String[] {text, coordString});
+
+    Assert.assertEquals(text, postedTweet.getText());
+    Assert.assertEquals(new Coordinates(coords, "Point"), postedTweet.getCoordinates());
   }
 
   @Test
   public void testShowTweet() {
     PercentEscaper percentEscaper = new PercentEscaper("", false);
-    Tweet tweet = TweetUtils.getTweetObject();
-    float[] coords = tweet.getCoordinates().getCoordinates();
+//    Tweet tweet = TweetUtils.getTweetObject();
+//    float[] coords = tweet.getCoordinates().getCoordinates();
+//    String coordString = coords[1] + ":" + coords[0];
+
+    String text = TweetUtils.newTweetText();
+    float[] coords = TweetUtils.getCoordinateValue();
     String coordString = coords[1] + ":" + coords[0];
 
-    Tweet postedTweet = controller.postTweet(new String[] {tweet.getText(), coordString});
+    Tweet postedTweet = controller.postTweet(new String[] {text, coordString});
     Tweet tweetFound = controller.showTweet(new String[] {postedTweet.getIdStr(), "id,text"});
 
-    Assert.assertEquals(tweet.getText(), percentEscaper.escape(tweetFound.getText()));
-    Assert.assertEquals(tweet.getId(), tweetFound.getId());
+    Assert.assertEquals(postedTweet.getText(), tweetFound.getText());
+    Assert.assertEquals(postedTweet.getIdStr(), tweetFound.getIdStr());
   }
 
   @Test
